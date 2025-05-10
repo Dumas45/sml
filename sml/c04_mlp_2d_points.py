@@ -212,6 +212,7 @@ def training_perceptron(args):
                                 output_size=output_size)
 
     print(mlp1)
+    args.mlp1 = mlp1
     batch_size = args.batch_size
 
     x_data_static, y_truth_static = get_toy_data(batch_size)
@@ -274,6 +275,13 @@ def training_perceptron(args):
             pdf.savefig(fig)
             plt.close(fig)
 
+        # Perceptron final
+        fig, ax = plt.subplots(1, 1, figsize=(10, 5))
+        visualize_results(mlp1, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=ax, title='Perceptron final')
+        plt.axis('off')
+        pdf.savefig(fig)
+        plt.close(fig)
+
 
 def training_2layer_perceptron(args):
     input_size = 2
@@ -292,6 +300,7 @@ def training_2layer_perceptron(args):
                                 output_size=output_size)
 
     print(mlp2)
+    args.mlp2 = mlp2
     batch_size = args.batch_size
 
     x_data_static, y_truth_static = get_toy_data(batch_size)
@@ -354,6 +363,13 @@ def training_2layer_perceptron(args):
             pdf.savefig(fig)
             plt.close(fig)
 
+        fig, ax = plt.subplots(1, 1, figsize=(10, 5))
+        visualize_results(
+            mlp2, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=ax, title='2-Layer MLP final')
+        plt.axis('off')
+        pdf.savefig(fig)
+        plt.close(fig)
+
 
 def training_3layer_perceptron(args):
     input_size = 2
@@ -372,6 +388,7 @@ def training_3layer_perceptron(args):
                                 output_size=output_size)
 
     print(mlp3)
+    args.mlp3 = mlp3
     batch_size = args.batch_size
 
     x_data_static, y_truth_static = get_toy_data(batch_size)
@@ -434,6 +451,13 @@ def training_3layer_perceptron(args):
             pdf.savefig(fig)
             plt.close(fig)
 
+        fig, ax = plt.subplots(1, 1, figsize=(10, 5))
+        visualize_results(
+            mlp3, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=ax, title='3-Layer MLP final')
+        plt.axis('off')
+        pdf.savefig(fig)
+        plt.close(fig)
+
 
 def main():
     args = Namespace(
@@ -442,8 +466,11 @@ def main():
         images_path=pathlib.Path('/home/alex/tmp/tmp100/images'),
         run_initial_data_plot=1,
         run_training_perceptron=1,
+        mlp1=None,
         run_training_2layer_perceptron=1,
+        mlp2=None,
         run_training_3layer_perceptron=1,
+        mlp3=None,
     )
     args.images_path.mkdir(parents=True, exist_ok=True)
 

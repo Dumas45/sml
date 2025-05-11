@@ -3,9 +3,9 @@ from argparse import Namespace
 from typing import List
 
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
+from torch import nn
+from torch.nn import functional as F
+from torch import optim
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -145,7 +145,7 @@ def visualize_results(perceptron, x_data, y_truth, ax=None, epoch=None, title=''
     plt.suptitle(title)
 
     if epoch is not None:
-        plt.text(xlim[0], ylim[1], "Epoch = {}".format(str(epoch)))
+        plt.text(xlim[0], ylim[1], f'Epoch = {epoch}')
 
 
 def initial_data_plot(args):
@@ -175,7 +175,7 @@ def initial_data_plot(args):
 
     _, ax = plt.subplots(1, 1, figsize=(10, 5))
 
-    for x_list, color_list, marker in zip(all_x, all_colors, markers):
+    for x_list, marker in zip(all_x, markers):
         ax.scatter(x_list[:, 0], x_list[:, 1], edgecolor='black', marker=marker, facecolor="white", s=100)
 
     plt.tight_layout()
@@ -277,7 +277,8 @@ def training_perceptron(args):
 
         # Perceptron final
         fig, ax = plt.subplots(1, 1, figsize=(10, 5))
-        visualize_results(mlp1, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=ax, title='Perceptron final')
+        visualize_results(mlp1, x_data_static, y_truth_static,
+                          epoch=None, levels=[0.5], ax=ax, title='Perceptron final')
         plt.axis('off')
         pdf.savefig(fig)
         plt.close(fig)

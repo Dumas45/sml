@@ -123,11 +123,11 @@ def visualize_results(perceptron, x_data, y_truth, ax=None, epoch=None, title=''
     for x_list, color_list, marker in zip(all_x, all_colors, markers):
         ax.scatter(x_list[:, 0], x_list[:, 1], edgecolor="black", marker=marker, facecolor=color_list, s=100)
 
-    xlim = (min([x_list[:, 0].min() for x_list in all_x]),
-            max([x_list[:, 0].max() for x_list in all_x]))
+    xlim = (min(x_list[:, 0].min() for x_list in all_x),
+            max(x_list[:, 0].max() for x_list in all_x))
 
-    ylim = (min([x_list[:, 1].min() for x_list in all_x]),
-            max([x_list[:, 1].max() for x_list in all_x]))
+    ylim = (min(x_list[:, 1].min() for x_list in all_x),
+            max(x_list[:, 1].max() for x_list in all_x))
 
     # hyperplane
     xx = np.linspace(xlim[0], xlim[1], 30)

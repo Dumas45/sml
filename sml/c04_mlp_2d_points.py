@@ -142,7 +142,8 @@ def visualize_results(perceptron, x_data, y_truth, ax=None, epoch=None, title=''
         ax.contour(XX, YY, Z, colors=colors[i], levels=levels, linestyles=linestyles)
 
     # plotting niceties
-    plt.suptitle(title)
+    if title:
+        plt.suptitle(title)
 
     if epoch is not None:
         plt.text(xlim[0], ylim[1], f'Epoch = {epoch}')
@@ -364,12 +365,30 @@ def training_2layer_perceptron(args):
             pdf.savefig(fig)
             plt.close(fig)
 
+        # Print 2-Layer MLP final
         fig, ax = plt.subplots(1, 1, figsize=(10, 5))
         visualize_results(
             mlp2, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=ax, title='2-Layer MLP final')
         plt.axis('off')
         pdf.savefig(fig)
         plt.close(fig)
+
+        # Print comparison
+        mlp1 = args.mlp1
+        if mlp1 is not None:
+            fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+            visualize_results(
+                mlp1, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=axes[0], title='Perceptron final')
+            visualize_results(
+                mlp2, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=axes[1], title='2-Layer MLP final')
+            axes[0].axis('off')
+            axes[0].set_title('Perceptron final')
+            axes[1].axis('off')
+            axes[1].set_title('2-Layer MLP final')
+            plt.suptitle('Comparison of Perceptron and 2-Layer MLP')
+            plt.tight_layout()
+            pdf.savefig(fig)
+            plt.close(fig)
 
 
 def training_3layer_perceptron(args):
@@ -452,6 +471,7 @@ def training_3layer_perceptron(args):
             pdf.savefig(fig)
             plt.close(fig)
 
+        # Print 3-Layer MLP final
         fig, ax = plt.subplots(1, 1, figsize=(10, 5))
         visualize_results(
             mlp3, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=ax, title='3-Layer MLP final')
@@ -459,10 +479,31 @@ def training_3layer_perceptron(args):
         pdf.savefig(fig)
         plt.close(fig)
 
+        # Print comparison
+        mlp1 = args.mlp1
+        mlp2 = args.mlp2
+        if mlp1 is not None or mlp2 is not None:
+            models = [m for m in (
+                (mlp1, 'Perceptron'),
+                (mlp2, '2-Layer MLP'),
+                (mlp3, '3-Layer MLP')
+            ) if m is not None]
+            models, titles = zip(*models)
+            fig, axes = plt.subplots(1, len(models), figsize=(len(models) * 5 + 1, 5))
+            for model, title, ax in zip(models, titles, axes):
+                visualize_results(model, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=ax)
+                ax.axis('off')
+                ax.set_title(title)
+
+            plt.suptitle(f'Comparison of {", ".join(titles)}')
+            plt.tight_layout()
+            pdf.savefig(fig)
+            plt.close(fig)
+
 
 def main():
     args = Namespace(
-        seed=1732,
+        seed=1726,
         batch_size=1000,
         images_path=pathlib.Path('/home/alex/tmp/tmp100/images'),
         run_initial_data_plot=1,

@@ -501,6 +501,83 @@ def training_3layer_perceptron(args):
             plt.close(fig)
 
 
+def plot_intermediate_representations(mlp_model, plot_title, figsize=(10, 2)):
+    batch_size = 40
+
+    x_data, y_target = get_toy_data(batch_size)
+
+    mlp_model(x_data, True)
+
+    x_data = x_data.numpy()
+    y_target = y_target.numpy()
+
+    markers = ['o', 'X']
+
+    class_zero_indices = []
+    class_one_indices = []
+    for i in range(y_target.shape[0]):
+        if y_target[i] == 0:
+            class_zero_indices.append(i)
+        else:
+            class_one_indices.append(i)
+
+    class_zero_indices = np.array(class_zero_indices)
+    class_one_indices = np.array(class_one_indices)
+
+    fig, axes = plt.subplots(1, len(mlp_model.last_forward_cache), figsize=figsize)
+
+    for class_index, data_indices in enumerate([class_zero_indices, class_one_indices]):
+
+        axes[0].scatter(
+            x_data[data_indices, 0],
+            x_data[data_indices, 1],
+            edgecolor='black',
+            facecolor="white",
+            marker=markers[class_index],
+            s=[200, 200][class_index]
+        )
+        axes[0].axis('off')
+        for i, activations in enumerate(mlp_model.last_forward_cache[1:], 1):
+            axes[i].scatter(
+                activations[data_indices, 0],
+                activations[data_indices, 1],
+                edgecolor='black',
+                facecolor="white",
+                marker=markers[class_index],
+                s=[200, 200][class_index]
+            )
+            axes[i].axis('off')
+
+    plt.tight_layout()
+
+    plt.suptitle(plot_title, size=15)
+    plt.subplots_adjust(top=0.75)
+
+    return fig
+
+
+def inspect_representations(args):
+    mlp1 = args.mlp1
+    mlp2 = args.mlp2
+    mlp3 = args.mlp3
+
+    with PdfPages(args.images_path / 'intermediate_representations.pdf') as pdf:
+        if mlp1 is not None:
+            fig = plot_intermediate_representations(mlp1, 'Perceptron', figsize=(9, 3))
+            pdf.savefig(fig)
+            plt.close(fig)
+
+        if mlp2 is not None:
+            fig = plot_intermediate_representations(mlp2, '2-Layer MLP', figsize=(10, 3))
+            pdf.savefig(fig)
+            plt.close(fig)
+
+        if mlp3 is not None:
+            fig = plot_intermediate_representations(mlp3, '3-Layer MLP', figsize=(13, 3))
+            pdf.savefig(fig)
+            plt.close(fig)
+
+
 def main():
     args = Namespace(
         seed=1726,
@@ -513,17 +590,25 @@ def main():
         mlp2=None,
         run_training_3layer_perceptron=1,
         mlp3=None,
+        run_inspect_representations=1,
     )
     args.images_path.mkdir(parents=True, exist_ok=True)
 
     if args.run_initial_data_plot:
         initial_data_plot(args)
+        plt.close('all')
     if args.run_training_perceptron:
         training_perceptron(args)
+        plt.close('all')
     if args.run_training_2layer_perceptron:
         training_2layer_perceptron(args)
+        plt.close('all')
     if args.run_training_3layer_perceptron:
         training_3layer_perceptron(args)
+        plt.close('all')
+    if args.run_inspect_representations:
+        inspect_representations(args)
+        plt.close('all')
 
 
 if __name__ == '__main__':

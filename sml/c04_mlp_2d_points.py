@@ -1,3 +1,4 @@
+from math import ceil
 import pathlib
 from argparse import Namespace
 from typing import List
@@ -501,8 +502,13 @@ def training_3layer_perceptron(args):
             plt.close(fig)
 
 
-def plot_intermediate_representations(mlp_model, plot_title, figsize=(10, 2)):
-    batch_size = 40
+def plot_intermediate_representations(mlp_model, plot_title):
+    batch_size = 10
+
+    seed = 111
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    np.random.seed(seed)
 
     x_data, y_target = get_toy_data(batch_size)
 
@@ -524,7 +530,14 @@ def plot_intermediate_representations(mlp_model, plot_title, figsize=(10, 2)):
     class_zero_indices = np.array(class_zero_indices)
     class_one_indices = np.array(class_one_indices)
 
-    fig, axes = plt.subplots(1, len(mlp_model.last_forward_cache), figsize=figsize)
+    len_cache = len(mlp_model.last_forward_cache)
+    num_rows = ceil(len_cache / 4)
+    num_cols = min(4, len_cache)
+    fig, axes = plt.subplots(num_rows, num_cols, figsize=(3 * num_cols, 3 * num_rows))
+
+    axes = axes.flatten()
+    for i in range(len_cache, len(axes)):
+        axes[i].axis('off')
 
     for class_index, data_indices in enumerate([class_zero_indices, class_one_indices]):
 
@@ -536,9 +549,9 @@ def plot_intermediate_representations(mlp_model, plot_title, figsize=(10, 2)):
             marker=markers[class_index],
             s=[200, 200][class_index]
         )
-        axes[0].axis('off')
         for i, activations in enumerate(mlp_model.last_forward_cache[1:], 1):
-            axes[i].scatter(
+            ax = axes[i]
+            ax.scatter(
                 activations[data_indices, 0],
                 activations[data_indices, 1],
                 edgecolor='black',
@@ -546,7 +559,6 @@ def plot_intermediate_representations(mlp_model, plot_title, figsize=(10, 2)):
                 marker=markers[class_index],
                 s=[200, 200][class_index]
             )
-            axes[i].axis('off')
 
     plt.tight_layout()
 
@@ -563,17 +575,17 @@ def inspect_representations(args):
 
     with PdfPages(args.images_path / 'intermediate_representations.pdf') as pdf:
         if mlp1 is not None:
-            fig = plot_intermediate_representations(mlp1, 'Perceptron', figsize=(9, 3))
+            fig = plot_intermediate_representations(mlp1, 'Perceptron')
             pdf.savefig(fig)
             plt.close(fig)
 
         if mlp2 is not None:
-            fig = plot_intermediate_representations(mlp2, '2-Layer MLP', figsize=(10, 3))
+            fig = plot_intermediate_representations(mlp2, '2-Layer MLP')
             pdf.savefig(fig)
             plt.close(fig)
 
         if mlp3 is not None:
-            fig = plot_intermediate_representations(mlp3, '3-Layer MLP', figsize=(13, 3))
+            fig = plot_intermediate_representations(mlp3, '3-Layer MLP')
             pdf.savefig(fig)
             plt.close(fig)
 

@@ -181,8 +181,6 @@ def initial_data_plot(args):
         ax.scatter(x_list[:, 0], x_list[:, 1], edgecolor='black', marker=marker, facecolor="white", s=100)
 
     plt.tight_layout()
-    plt.axis('off')
-
     plt.title("")
 
     plt.savefig(args.images_path / "data.png")
@@ -224,7 +222,6 @@ def training_perceptron(args):
         visualize_results(mlp1, x_data_static, y_truth_static,
                           ax=ax, title='Initial Perceptron State', levels=[0.5])
 
-        plt.axis('off')
         pdf.savefig(fig)
         plt.close(fig)
 
@@ -272,7 +269,7 @@ def training_perceptron(args):
             fig, ax = plt.subplots(1, 1, figsize=(10, 5))
             visualize_results(mlp1, x_data_static, y_truth_static, ax=ax, epoch=epoch,
                               title=f"{loss_value:0.2f}; {loss_change:0.4f}")
-            plt.axis('off')
+
             epoch += 1
             pdf.savefig(fig)
             plt.close(fig)
@@ -281,7 +278,7 @@ def training_perceptron(args):
         fig, ax = plt.subplots(1, 1, figsize=(10, 5))
         visualize_results(mlp1, x_data_static, y_truth_static,
                           epoch=None, levels=[0.5], ax=ax, title='Perceptron final')
-        plt.axis('off')
+
         pdf.savefig(fig)
         plt.close(fig)
 
@@ -313,7 +310,6 @@ def training_2layer_perceptron(args):
         visualize_results(mlp2, x_data_static, y_truth_static,
                           ax=ax, title='Initial 2-Layer MLP State', levels=[0.5])
 
-        plt.axis('off')
         pdf.savefig(fig)
         plt.close(fig)
 
@@ -361,7 +357,7 @@ def training_2layer_perceptron(args):
             fig, ax = plt.subplots(1, 1, figsize=(10, 5))
             visualize_results(mlp2, x_data_static, y_truth_static, ax=ax, epoch=epoch,
                               title=f"{loss_value:0.2f}; {loss_change:0.4f}")
-            plt.axis('off')
+
             epoch += 1
             pdf.savefig(fig)
             plt.close(fig)
@@ -370,7 +366,7 @@ def training_2layer_perceptron(args):
         fig, ax = plt.subplots(1, 1, figsize=(10, 5))
         visualize_results(
             mlp2, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=ax, title='2-Layer MLP final')
-        plt.axis('off')
+
         pdf.savefig(fig)
         plt.close(fig)
 
@@ -382,9 +378,8 @@ def training_2layer_perceptron(args):
                 mlp1, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=axes[0], title='Perceptron final')
             visualize_results(
                 mlp2, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=axes[1], title='2-Layer MLP final')
-            axes[0].axis('off')
+
             axes[0].set_title('Perceptron final')
-            axes[1].axis('off')
             axes[1].set_title('2-Layer MLP final')
             plt.suptitle('Comparison of Perceptron and 2-Layer MLP')
             plt.tight_layout()
@@ -419,7 +414,6 @@ def training_3layer_perceptron(args):
         visualize_results(mlp3, x_data_static, y_truth_static,
                           ax=ax, title='Initial 3-Layer MLP State', levels=[0.5])
 
-        plt.axis('off')
         pdf.savefig(fig)
         plt.close(fig)
 
@@ -467,7 +461,7 @@ def training_3layer_perceptron(args):
             fig, ax = plt.subplots(1, 1, figsize=(10, 5))
             visualize_results(mlp3, x_data_static, y_truth_static, ax=ax, epoch=epoch,
                               title=f"{loss_value:0.2f}; {loss_change:0.4f}")
-            plt.axis('off')
+
             epoch += 1
             pdf.savefig(fig)
             plt.close(fig)
@@ -476,7 +470,7 @@ def training_3layer_perceptron(args):
         fig, ax = plt.subplots(1, 1, figsize=(10, 5))
         visualize_results(
             mlp3, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=ax, title='3-Layer MLP final')
-        plt.axis('off')
+
         pdf.savefig(fig)
         plt.close(fig)
 
@@ -493,7 +487,6 @@ def training_3layer_perceptron(args):
             fig, axes = plt.subplots(1, len(models), figsize=(len(models) * 5 + 1, 5))
             for model, title, ax in zip(models, titles, axes):
                 visualize_results(model, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=ax)
-                ax.axis('off')
                 ax.set_title(title)
 
             plt.suptitle(f'Comparison of {", ".join(titles)}')

@@ -88,14 +88,10 @@ class MultilayerPerceptron(nn.Module):
         return output
 
 
-def visualize_results(perceptron, x_data, y_truth, ax=None, epoch=None, title='', levels=None, linestyles=None):
-    if levels is None:
-        levels = [0.3, 0.4, 0.5]
+def visualize_results(perceptron, x_data, y_truth, ax=None, epoch=None, title=''):
 
-    if linestyles is None:
-        linestyles = ['--', '-', '--']
-
-    _, y_pred = perceptron(x_data, apply_softmax=True).max(dim=1)
+    pred = perceptron(x_data, apply_softmax=True)
+    _, y_pred = pred.max(dim=1)
     y_pred = y_pred.data.numpy()
 
     x_data = x_data.data.numpy()
@@ -106,7 +102,6 @@ def visualize_results(perceptron, x_data, y_truth, ax=None, epoch=None, title=''
     all_x = [[] for _ in range(n_classes)]
     all_colors: List = [[] for _ in range(n_classes)]
 
-    colors = ['black', 'white']
     markers = ['o', 'X']
 
     for x_i, y_pred_i, y_true_i in zip(x_data, y_pred, y_truth):
@@ -114,7 +109,7 @@ def visualize_results(perceptron, x_data, y_truth, ax=None, epoch=None, title=''
         if y_pred_i == y_true_i:
             all_colors[y_true_i].append("white")
         else:
-            all_colors[y_true_i].append("black")
+            all_colors[y_true_i].append("grey")
 
     all_x = [np.stack(x_list) for x_list in all_x]
 
@@ -122,13 +117,14 @@ def visualize_results(perceptron, x_data, y_truth, ax=None, epoch=None, title=''
         _, ax = plt.subplots(1, 1, figsize=(10, 10))
 
     for x_list, color_list, marker in zip(all_x, all_colors, markers):
-        ax.scatter(x_list[:, 0], x_list[:, 1], edgecolor="black", marker=marker, facecolor=color_list, s=100)
+        ax.scatter(x_list[:, 0], x_list[:, 1], edgecolor="grey", marker=marker, facecolor=color_list, s=100)
 
-    xlim = (min(x_list[:, 0].min() for x_list in all_x),
-            max(x_list[:, 0].max() for x_list in all_x))
+    margin = 0.5
+    xlim = (min(x_list[:, 0].min() for x_list in all_x) - margin,
+            max(x_list[:, 0].max() for x_list in all_x) + margin)
 
-    ylim = (min(x_list[:, 1].min() for x_list in all_x),
-            max(x_list[:, 1].max() for x_list in all_x))
+    ylim = (min(x_list[:, 1].min() for x_list in all_x) - margin,
+            max(x_list[:, 1].max() for x_list in all_x) + margin)
 
     # hyperplane
     xx = np.linspace(xlim[0], xlim[1], 30)
@@ -136,11 +132,14 @@ def visualize_results(perceptron, x_data, y_truth, ax=None, epoch=None, title=''
     YY, XX = np.meshgrid(yy, xx)
     xy = np.vstack([XX.ravel(), YY.ravel()]).T
 
-    for i in range(n_classes):
-        Z = perceptron(torch.tensor(xy, dtype=torch.float32),
-                       apply_softmax=True)
-        Z = Z[:, i].data.numpy().reshape(XX.shape)
-        ax.contour(XX, YY, Z, colors=colors[i], levels=levels, linestyles=linestyles)
+    Z = perceptron(torch.tensor(xy, dtype=torch.float32), apply_softmax=True)
+    Z = Z[:, 0].data.numpy().reshape(XX.shape)
+    C = ax.contour(
+        XX, YY, Z,
+        levels=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+        linestyles=[':', ':', ':', ':', '-', ':', ':', ':', ':']
+    )
+    ax.clabel(C, fontsize=10)
 
     # plotting niceties
     if title:
@@ -219,8 +218,7 @@ def training_perceptron(args):
 
     with PdfPages(args.images_path / 'Perceptron.pdf') as pdf:
         fig, ax = plt.subplots(1, 1, figsize=(10, 5))
-        visualize_results(mlp1, x_data_static, y_truth_static,
-                          ax=ax, title='Initial Perceptron State', levels=[0.5])
+        visualize_results(mlp1, x_data_static, y_truth_static, ax=ax, title='Initial Perceptron State')
 
         pdf.savefig(fig)
         plt.close(fig)
@@ -276,8 +274,7 @@ def training_perceptron(args):
 
         # Perceptron final
         fig, ax = plt.subplots(1, 1, figsize=(10, 5))
-        visualize_results(mlp1, x_data_static, y_truth_static,
-                          epoch=None, levels=[0.5], ax=ax, title='Perceptron final')
+        visualize_results(mlp1, x_data_static, y_truth_static, epoch=None, ax=ax, title='Perceptron final')
 
         pdf.savefig(fig)
         plt.close(fig)
@@ -307,8 +304,7 @@ def training_2layer_perceptron(args):
 
     with PdfPages(args.images_path / '2-Layer-MLP.pdf') as pdf:
         fig, ax = plt.subplots(1, 1, figsize=(10, 5))
-        visualize_results(mlp2, x_data_static, y_truth_static,
-                          ax=ax, title='Initial 2-Layer MLP State', levels=[0.5])
+        visualize_results(mlp2, x_data_static, y_truth_static, ax=ax, title='Initial 2-Layer MLP State')
 
         pdf.savefig(fig)
         plt.close(fig)
@@ -365,7 +361,7 @@ def training_2layer_perceptron(args):
         # Print 2-Layer MLP final
         fig, ax = plt.subplots(1, 1, figsize=(10, 5))
         visualize_results(
-            mlp2, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=ax, title='2-Layer MLP final')
+            mlp2, x_data_static, y_truth_static, epoch=None, ax=ax, title='2-Layer MLP final')
 
         pdf.savefig(fig)
         plt.close(fig)
@@ -375,9 +371,9 @@ def training_2layer_perceptron(args):
         if mlp1 is not None:
             fig, axes = plt.subplots(1, 2, figsize=(12, 5))
             visualize_results(
-                mlp1, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=axes[0], title='Perceptron final')
+                mlp1, x_data_static, y_truth_static, epoch=None, ax=axes[0], title='Perceptron final')
             visualize_results(
-                mlp2, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=axes[1], title='2-Layer MLP final')
+                mlp2, x_data_static, y_truth_static, epoch=None, ax=axes[1], title='2-Layer MLP final')
 
             axes[0].set_title('Perceptron final')
             axes[1].set_title('2-Layer MLP final')
@@ -411,8 +407,7 @@ def training_3layer_perceptron(args):
 
     with PdfPages(args.images_path / '3-Layer-MLP.pdf') as pdf:
         fig, ax = plt.subplots(1, 1, figsize=(10, 5))
-        visualize_results(mlp3, x_data_static, y_truth_static,
-                          ax=ax, title='Initial 3-Layer MLP State', levels=[0.5])
+        visualize_results(mlp3, x_data_static, y_truth_static, ax=ax, title='Initial 3-Layer MLP State')
 
         pdf.savefig(fig)
         plt.close(fig)
@@ -469,7 +464,7 @@ def training_3layer_perceptron(args):
         # Print 3-Layer MLP final
         fig, ax = plt.subplots(1, 1, figsize=(10, 5))
         visualize_results(
-            mlp3, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=ax, title='3-Layer MLP final')
+            mlp3, x_data_static, y_truth_static, epoch=None, ax=ax, title='3-Layer MLP final')
 
         pdf.savefig(fig)
         plt.close(fig)
@@ -486,7 +481,7 @@ def training_3layer_perceptron(args):
             models, titles = zip(*models)
             fig, axes = plt.subplots(1, len(models), figsize=(len(models) * 5 + 1, 5))
             for model, title, ax in zip(models, titles, axes):
-                visualize_results(model, x_data_static, y_truth_static, epoch=None, levels=[0.5], ax=ax)
+                visualize_results(model, x_data_static, y_truth_static, epoch=None, ax=ax)
                 ax.set_title(title)
 
             plt.suptitle(f'Comparison of {", ".join(titles)}')

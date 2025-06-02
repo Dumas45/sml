@@ -287,7 +287,7 @@ def training_2layer_perceptron(args):
     input_size = 2
     output_size = len(set(LABELS))
     num_hidden_layers = 1
-    hidden_size = 2
+    hidden_size = 6
 
     seed = args.seed
     torch.manual_seed(seed)
@@ -391,7 +391,7 @@ def training_3layer_perceptron(args):
     input_size = 2
     output_size = len(set(LABELS))
     num_hidden_layers = 2
-    hidden_size = 2
+    hidden_size = 5
 
     seed = args.seed
     torch.manual_seed(seed)
@@ -586,6 +586,16 @@ def inspect_representations(args):
 def main():
     args = Namespace(
         seed=1726,
+        # Some seeds, working with hidden layer of size 2:
+        # 18 0.3480
+        # 23 0.3029
+        # 25 0.2986
+        # 34 0.3372
+        # 38 0.3163
+        # 1726 0.2920
+        # 1732 0.2683
+        # 1762 0.2870
+
         batch_size=1000,
         images_path=pathlib.Path('/home/alex/tmp/tmp100/images'),
         run_initial_data_plot=1,

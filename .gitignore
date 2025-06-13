@@ -173,4 +173,11 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+# Project-specific files
 .idea
+.vscode
+
+data
+examples
+model_storage
+patches

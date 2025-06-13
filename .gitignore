@@ -181,3 +181,7 @@ data
 examples
 model_storage
 patches
+
+delip/notebook
+
+tmp*.py

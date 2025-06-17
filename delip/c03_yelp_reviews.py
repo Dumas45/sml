@@ -689,6 +689,11 @@ def inference(args):
     classifier.eval()
 
     for test_review in [
+        ("Never! Said the Queen furiously, throwing an inkstand at the Lizard as "
+         "she spoke. The unfortunate little Bill never had left off writing on "
+         "his slate with one finger, as he found it made no mark; but he now "
+         "hastily began again, using the ink, that was unfortunate trickling down "
+         "his face, never as long as it lasted."),
         ("The players all played at once without waiting for turns, quarrelling "
          "all the while, and fighting for the hedgehogs; and in a very short time "
          "the Queen was in a furious passion, and went stamping about, and "
@@ -698,11 +703,12 @@ def inference(args):
          "asking riddles that have no answers"),
     ]:
         prediction = predict_rating(test_review, classifier, vectorizer, decision_threshold=0.5)
-        print("{} -> {}".format(test_review, prediction))
+        print("\n{} -> {}".format(test_review, prediction))
 
     # ----------------------------------------------------------------
     # Interpretability
     # ----------------------------------------------------------------
+    print()
     print(classifier.fc1.weight.shape)
 
     # Sort weights

@@ -120,14 +120,16 @@ class Vocabulary:
 class SurnameVectorizer:
     """The Vectorizer which coordinates the Vocabularies and puts them to use."""
 
-    def __init__(self, surname_vocab, nationality_vocab):
+    def __init__(self, surname_vocab, nationality_vocab, lower_case=False):
         """
         Args:
             surname_vocab (Vocabulary): maps characters to integers
             nationality_vocab (Vocabulary): maps nationalities to integers
+            lower_case (bool): whether to convert surnames to lower case
         """
         self.surname_vocab = surname_vocab
         self.nationality_vocab = nationality_vocab
+        self.lower_case = lower_case
 
     def vectorize(self, surname):
         """
@@ -137,6 +139,9 @@ class SurnameVectorizer:
         Returns:
             one_hot (np.ndarray): a collapsed one-hot encoding
         """
+        if self.lower_case:
+            surname = surname.lower()
+
         vocab = self.surname_vocab
         one_hot = np.zeros(len(vocab), dtype=np.float32)
         for token in surname:
@@ -145,12 +150,13 @@ class SurnameVectorizer:
         return one_hot
 
     @classmethod
-    def from_dataframe(cls, surname_df):
+    def from_dataframe(cls, surname_df, lower_case=False):
         """
         Instantiate the vectorizer from the dataset dataframe.
 
         Args:
             surname_df (pandas.DataFrame): the surnames dataset
+            lower_case (bool): whether to convert surnames to lower case
         Returns:
             an instance of the SurnameVectorizer
         """
@@ -158,21 +164,33 @@ class SurnameVectorizer:
         nationality_vocab = Vocabulary(add_unk=False)
 
         for _, row in surname_df.iterrows():
-            for letter in row.surname:
+            surname = row.surname
+            if lower_case:
+                surname = surname.lower()
+
+            for letter in surname:
                 surname_vocab.add_token(letter)
             nationality_vocab.add_token(row.nationality)
 
-        return cls(surname_vocab, nationality_vocab)
+        return cls(surname_vocab, nationality_vocab, lower_case=lower_case)
 
     @classmethod
     def from_serializable(cls, contents):
         surname_vocab = Vocabulary.from_serializable(contents['surname_vocab'])
         nationality_vocab =  Vocabulary.from_serializable(contents['nationality_vocab'])
-        return cls(surname_vocab=surname_vocab, nationality_vocab=nationality_vocab)
+        lower_case = contents.get('lower_case', False)
+        return cls(
+            surname_vocab=surname_vocab,
+            nationality_vocab=nationality_vocab,
+            lower_case=lower_case
+        )
 
     def to_serializable(self):
-        return {'surname_vocab': self.surname_vocab.to_serializable(),
-                'nationality_vocab': self.nationality_vocab.to_serializable()}
+        return {
+            'surname_vocab': self.surname_vocab.to_serializable(),
+            'nationality_vocab': self.nationality_vocab.to_serializable(),
+            'lower_case': self.lower_case
+        }
 
 
 # pylint: disable=too-many-instance-attributes
@@ -212,18 +230,19 @@ class SurnameDataset(Dataset):
         self.class_weights = 1.0 / torch.tensor(frequencies, dtype=torch.float32)
 
     @classmethod
-    def load_dataset_and_make_vectorizer(cls, surname_csv):
+    def load_dataset_and_make_vectorizer(cls, surname_csv, lower_case=False):
         """
         Load dataset and make a new vectorizer from scratch.
 
         Args:
             surname_csv (str): location of the dataset
+            lower_case (bool): whether to convert surnames to lower case
         Returns:
             an instance of SurnameDataset
         """
         surname_df = pd.read_csv(surname_csv)
         train_surname_df = surname_df[surname_df.split=='train']
-        return cls(surname_df, SurnameVectorizer.from_dataframe(train_surname_df))
+        return cls(surname_df, SurnameVectorizer.from_dataframe(train_surname_df, lower_case=lower_case))
 
     @classmethod
     def load_dataset_and_load_vectorizer(cls, surname_csv, vectorizer_filepath):
@@ -502,7 +521,7 @@ def train(args):
     else:
         # create dataset and vectorizer
         print("Creating fresh!")
-        dataset = SurnameDataset.load_dataset_and_make_vectorizer(args.surname_csv)
+        dataset = SurnameDataset.load_dataset_and_make_vectorizer(args.surname_csv, lower_case=args.lower_case)
         dataset.save_vectorizer(args.vectorizer_file)
 
     vectorizer = dataset.get_vectorizer()
@@ -770,5 +789,6 @@ if __name__ == '__main__':
     _parser.add_argument('--reload_from_files', type=str2bool, default=False)
     _parser.add_argument('--expand_filepaths_to_save_dir', type=str2bool, default=True)
     _parser.add_argument('--mode', type=str, default='train')  # 'train' or 'inference'
+    _parser.add_argument('--lower_case', type=str2bool, default=False)
     _args = _parser.parse_args()
     main(_args)

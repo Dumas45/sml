@@ -810,7 +810,6 @@ if __name__ == '__main__':
     _parser.add_argument('--vectorizer_file', type=str, default='vectorizer.json')
     _parser.add_argument('--model_state_file', type=str, default='model.pth')
     _parser.add_argument('--save_dir', type=str, default='delip/model_storage/ch4/surname_cnn')
-    _parser.add_argument('--hidden_dim', type=int, default=100)
     _parser.add_argument('--num_channels', type=int, default=256)
     _parser.add_argument('--seed', type=int, default=1337)
     _parser.add_argument('--num_epochs', type=int, default=100)

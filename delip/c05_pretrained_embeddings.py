@@ -29,7 +29,7 @@ class PreTrainedEmbeddings:
         for i, vector in enumerate(word_vectors):
             self.index.add_item(i, vector)
 
-        self.index.build(10)
+        self.index.build(50)
         print('Finished building Annoy index.')
 
     @classmethod
@@ -104,6 +104,8 @@ class PreTrainedEmbeddings:
 
         if not closest_words:
             raise ValueError("No closest words found for the analogy")
+
+        closest_words = [w for w in closest_words if w not in (word1, word2, word3)]
 
         for word in closest_words:
             print(f"{word1} : {word2} :: {word3} : {word}")

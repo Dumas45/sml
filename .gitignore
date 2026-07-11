@@ -178,9 +178,7 @@ cython_debug/
 .vscode
 
 data
-examples
 model_storage
-patches
 compare
 
 delip/notebook

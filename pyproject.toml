@@ -11,3 +11,8 @@ dependencies = [
     "pandas==3.0.3",
     "tqdm==4.68.3",
 ]
+
+[dependency-groups]
+dev = [
+    "pylint==4.0.6",
+]

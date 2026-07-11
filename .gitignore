@@ -180,7 +180,6 @@ cython_debug/
 data
 examples
 model_storage
-patches
 compare
 
 delip/notebook

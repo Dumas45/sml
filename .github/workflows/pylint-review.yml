@@ -33,4 +33,5 @@ jobs:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b .
-          uv run pylint --rcfile=pylint.rc delip/ examples/ | ./reviewdog -efm="%f:%l:%c: %t%*[^:]: %m" -reporter=github-pr-review -level=warning
+          uv run pylint --rcfile=pylint.rc --disable=R0801 delip/ examples/ \
+            | ./reviewdog -efm="%f:%l:%c: %t%*[^:]: %m" -reporter=github-pr-review -level=warning

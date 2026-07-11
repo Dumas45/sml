@@ -178,6 +178,7 @@ cython_debug/
 .vscode
 
 data
+examples
 model_storage
 compare
 

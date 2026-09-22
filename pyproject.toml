@@ -10,6 +10,7 @@ dependencies = [
     "numpy==2.5.0",
     "pandas==3.0.3",
     "tqdm==4.68.3",
+    "notebook==7.6.3",
 ]
 
 [dependency-groups]

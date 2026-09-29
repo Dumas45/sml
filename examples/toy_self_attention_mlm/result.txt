@@ -1,0 +1,267 @@
+Using device: cuda
+Loaded text. Total tokens: 35386 | Vocab size: 2588
+
+Starting Training...
+Epoch 040/200 | MLM Loss: 4.5978
+Epoch 080/200 | MLM Loss: 2.1686
+Epoch 120/200 | MLM Loss: 1.0378
+Epoch 160/200 | MLM Loss: 0.5090
+Epoch 200/200 | MLM Loss: 0.2628
+
+--- Witness Highlighter: Target = 'verdict' ---
+Sentence: "the king said gravely consider your verdict"
+
+Head 0 [local/positional]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+king               | 0.0000          | 
+said               | 0.0000          | 
+gravely            | 0.0000          | 
+consider           | 1.0000          | ██████████████████████████████
+your               | 0.0000          | 
+verdict            | 0.0000          | 
+
+Head 1 [semantic/long-range]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+king               | 0.0000          | 
+said               | 1.0000          | ██████████████████████████████
+gravely            | 0.0000          | 
+consider           | 0.0000          | 
+your               | 0.0000          | 
+verdict            | 0.0000          | 
+
+Head 2 [semantic/long-range]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+king               | 0.0000          | 
+said               | 0.1655          | ████
+gravely            | 0.8345          | █████████████████████████
+consider           | 0.0000          | 
+your               | 0.0000          | 
+verdict            | 0.0000          | 
+
+Head 3 [free]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+king               | 0.0000          | 
+said               | 0.0000          | 
+gravely            | 0.0000          | 
+consider           | 0.0000          | 
+your               | 1.0000          | █████████████████████████████
+verdict            | 0.0000          | 
+
+--- Witness Highlighter: Target = 'king' ---
+Sentence: "the king said gravely consider your verdict"
+
+Head 0 [local/positional]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 1.0000          | ██████████████████████████████
+king               | 0.0000          | 
+said               | 0.0000          | 
+gravely            | 0.0000          | 
+consider           | 0.0000          | 
+your               | 0.0000          | 
+verdict            | 0.0000          | 
+
+Head 1 [semantic/long-range]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+king               | 0.0000          | 
+said               | 0.0000          | 
+gravely            | 0.0000          | 
+consider           | 0.8765          | ██████████████████████████
+your               | 0.1235          | ███
+verdict            | 0.0000          | 
+
+Head 2 [semantic/long-range]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+king               | 0.0000          | 
+said               | 0.0000          | 
+gravely            | 0.0000          | 
+consider           | 0.0000          | 
+your               | 1.0000          | ██████████████████████████████
+verdict            | 0.0000          | 
+
+Head 3 [free]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0011          | 
+king               | 0.0019          | 
+said               | 0.0044          | 
+gravely            | 0.0011          | 
+consider           | 0.0000          | 
+your               | 0.9912          | █████████████████████████████
+verdict            | 0.0003          | 
+
+--- Witness Highlighter: Target = 'he' ---
+Sentence: "the knave of hearts he stole those tarts"
+
+Head 0 [local/positional]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+knave              | 0.0000          | 
+of                 | 1.0000          | █████████████████████████████
+hearts             | 0.0000          | 
+he                 | 0.0000          | 
+stole              | 0.0000          | 
+those              | 0.0000          | 
+tarts              | 0.0000          | 
+
+Head 1 [semantic/long-range]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+knave              | 0.0000          | 
+of                 | 0.0000          | 
+hearts             | 0.0000          | 
+he                 | 0.0000          | 
+stole              | 0.0000          | 
+those              | 0.0000          | 
+tarts              | 1.0000          | ██████████████████████████████
+
+Head 2 [semantic/long-range]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+knave              | 0.2662          | ███████
+of                 | 0.0000          | 
+hearts             | 0.0000          | 
+he                 | 0.0000          | 
+stole              | 0.0000          | 
+those              | 0.0000          | 
+tarts              | 0.7338          | ██████████████████████
+
+Head 3 [free]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+knave              | 0.0012          | 
+of                 | 0.5311          | ███████████████
+hearts             | 0.0000          | 
+he                 | 0.0000          | 
+stole              | 0.0001          | 
+those              | 0.4532          | █████████████
+tarts              | 0.0144          | 
+
+--- Witness Highlighter: Target = 'stole' ---
+Sentence: "the knave of hearts he stole those tarts"
+
+Head 0 [local/positional]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+knave              | 0.0000          | 
+of                 | 0.0000          | 
+hearts             | 0.0000          | 
+he                 | 0.0000          | 
+stole              | 0.1002          | ███
+those              | 0.0058          | 
+tarts              | 0.8941          | ██████████████████████████
+
+Head 1 [semantic/long-range]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.8785          | ██████████████████████████
+knave              | 0.1174          | ███
+of                 | 0.0040          | 
+hearts             | 0.0000          | 
+he                 | 0.0000          | 
+stole              | 0.0000          | 
+those              | 0.0000          | 
+tarts              | 0.0000          | 
+
+Head 2 [semantic/long-range]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+knave              | 1.0000          | ██████████████████████████████
+of                 | 0.0000          | 
+hearts             | 0.0000          | 
+he                 | 0.0000          | 
+stole              | 0.0000          | 
+those              | 0.0000          | 
+tarts              | 0.0000          | 
+
+Head 3 [free]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.7976          | ███████████████████████
+knave              | 0.0885          | ██
+of                 | 0.0689          | ██
+hearts             | 0.0003          | 
+he                 | 0.0007          | 
+stole              | 0.0152          | 
+those              | 0.0236          | 
+tarts              | 0.0052          | 
+
+--- Witness Highlighter: Target = 'sentence' ---
+Sentence: "the judge said calmly consider your sentence"
+
+Head 0 [local/positional]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+judge              | 0.0000          | 
+said               | 0.0000          | 
+calmly             | 0.0000          | 
+consider           | 1.0000          | ██████████████████████████████
+your               | 0.0000          | 
+sentence           | 0.0000          | 
+
+Head 1 [semantic/long-range]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+judge              | 0.0541          | █
+said               | 0.9459          | ████████████████████████████
+calmly             | 0.0000          | 
+consider           | 0.0000          | 
+your               | 0.0000          | 
+sentence           | 0.0000          | 
+
+Head 2 [semantic/long-range]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0000          | 
+judge              | 0.0000          | 
+said               | 0.0836          | ██
+calmly             | 0.9164          | ███████████████████████████
+consider           | 0.0000          | 
+your               | 0.0000          | 
+sentence           | 0.0000          | 
+
+Head 3 [free]
+Context Token      | Attention Score | Visual Weight
+-------------------------------------------------------
+the                | 0.0011          | 
+judge              | 0.1175          | ███
+said               | 0.0000          | 
+calmly             | 0.0000          | 
+consider           | 0.0000          | 
+your               | 0.8814          | ██████████████████████████
+sentence           | 0.0000          | 
+
+Checking phrase embeddings...
+Similarity between 'stole tarts' and 'King Hearts': 0.4770
+Similarity between 'stole tarts' and 'Queen Hearts': 0.5094
+Similarity between 'stole tarts' and 'Knave Hearts': 0.6058
+Similarity between 'stole tarts' and 'Alice': 0.6129
+Similarity between 'stole tarts' and 'White Rabbit': 0.3784
+Similarity between 'stole tarts' and 'Mad Hatter': 0.6243
+Similarity between 'stole tarts' and 'Cheshire Cat': 0.4119
+Similarity between 'stole tarts' and 'Caterpillar': 0.6407
+Similarity between 'stole tarts' and 'Dormouse': 0.4613
+Similarity between 'stole tarts' and 'March Hare': 0.4576
+Similarity between 'stole tarts' and 'Gryphon': 0.4652
+Similarity between 'stole tarts' and 'Mock Turtle': 0.5629
+Similarity between 'stole tarts' and 'Wakawaka': 0.4934

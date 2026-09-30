@@ -471,7 +471,7 @@ def witness_highlighter(
     vocab: Vocabulary,
     sentence: str,
     target_word: str,
-) -> None:  # pylint: disable=too-many-locals
+) -> None:
     """Pass a sentence through the model and print the attention distribution for a target token.
 
     Dynamic scaling is applied to the ASCII bar visualization based on the maximum attention
@@ -579,7 +579,7 @@ def run_evaluation(model: MultiHeadMLM, vocab: Vocabulary) -> None:
         print(f"{other_phrase:<18} | {sim_raw:+.4f}      | {sim_cal:+.4f}")
 
 
-def main(source_path: Path) -> None:  # pylint: disable=too-many-locals
+def main(source_path: Path) -> None:
     """Execute training and evaluation pipeline for the toy MLM self-attention model.
 
     Args:

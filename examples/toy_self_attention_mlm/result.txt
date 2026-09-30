@@ -256,16 +256,16 @@ Checking phrase embeddings (raw vs. anisotropy-corrected)...
 Target query: 'stole tarts'
 Comparison Phrase  | Raw CosSim   | Calibrated CosSim
 -------------------------------------------------------
-King Hearts        | +0.3864      | +0.3875
-Queen Hearts       | +0.4413      | +0.4422
-Knave Hearts       | +0.7666      | +0.7670
-Alice              | +0.6130      | +0.6139
-White Rabbit       | +0.4273      | +0.4283
-Mad Hatter         | +0.4914      | +0.4924
-Cheshire Cat       | +0.4798      | +0.4804
-Caterpillar        | +0.4682      | +0.4688
-Dormouse           | +0.4313      | +0.4323
-March Hare         | +0.4314      | +0.4321
-Gryphon            | +0.1318      | +0.1326
-Mock Turtle        | +0.5810      | +0.5815
-Wakawaka           | +0.4633      | +0.4640
+Knave Hearts       | +0.7666      | +0.5667
+Mock Turtle        | +0.5810      | +0.2974
+Alice              | +0.6130      | +0.2554
+Caterpillar        | +0.4682      | +0.2417
+Harry Potter       | +0.4702      | +0.2212
+Cheshire Cat       | +0.4798      | +0.2046
+Mad Hatter         | +0.4914      | +0.1911
+March Hare         | +0.4314      | +0.0434
+Dormouse           | +0.4313      | -0.0084
+Queen Hearts       | +0.4413      | -0.0314
+King Hearts        | +0.3864      | -0.0589
+White Rabbit       | +0.4273      | -0.0707
+Gryphon            | +0.1318      | -0.4359

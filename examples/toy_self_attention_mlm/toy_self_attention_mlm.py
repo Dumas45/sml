@@ -12,6 +12,7 @@ trained on raw text from Alice in Wonderland to demonstrate:
    specialized head functions (local/positional vs. long-range/semantic).
 """
 
+from collections import namedtuple
 import math
 from pathlib import Path
 import re
@@ -399,20 +400,53 @@ def prepare_mlm_dataset(
 # 4. WITNESS HIGHLIGHTER (EVALUATION & INFERENCE)
 # =====================================================================
 
-def compute_vocab_mean_baseline(model: MultiHeadMLM) -> torch.Tensor:
-    """Compute the mean embedding vector across all vocabulary tokens.
+def compute_corpus_contextual_baseline(
+    model: MultiHeadMLM,
+    vocab: Vocabulary,
+    tokens: list[str],
+    seq_len: int = 16,
+    batch_size: int = 256,
+) -> torch.Tensor:
+    """Compute the mean contextual representation across representative corpus chunks.
 
-    This baseline vector is used for mean-centering contextual representations to
-    mitigate representation anisotropy (narrow cone problem in embedding space).
+    Contextual vectors are extracted from the same embedding, positional encoding,
+    and self-attention pooling pipeline as `get_phrase_embedding`. Subtracting this
+    vector mean-centers the contextual representation distribution to mitigate
+    representation anisotropy (narrow cone phenomenon).
 
     Args:
-        model (MultiHeadMLM): The trained model containing token embeddings.
+        model (MultiHeadMLM): Trained multi-head masked language model.
+        vocab (Vocabulary): Vocabulary used for encoding tokens into IDs.
+        tokens (list[str]): Corpus token sequence.
+        seq_len (int): Length of corpus chunks to process. Defaults to 16.
+        batch_size (int): Batch size for parallel context extraction. Defaults to 256.
 
     Returns:
-        torch.Tensor: The mean baseline vector of shape (d_model,).
+        torch.Tensor: The mean contextual baseline vector of shape (d_model,).
     """
+    model.eval()
+    device = next(model.parameters()).device
+    token_ids = vocab.encode(tokens)
+    num_seqs = len(token_ids) // seq_len
+
+    if num_seqs == 0:
+        return torch.zeros(model.embedding.embedding_dim, device=device)
+
+    corpus_tensor = torch.tensor(
+        token_ids[:num_seqs * seq_len], dtype=torch.long, device=device
+    ).view(num_seqs, seq_len)
+
+    all_pooled_vectors: list[torch.Tensor] = []
+    pe = sinusoidal_positional_encoding(seq_len, model.embedding.embedding_dim).to(device)
+
     with torch.no_grad():
-        return model.embedding.weight.mean(dim=0)
+        for i in range(0, num_seqs, batch_size):
+            batch = corpus_tensor[i : i + batch_size]
+            hidden = model.embedding(batch) + pe
+            context_vectors, _ = model.attention(hidden)
+            all_pooled_vectors.append(context_vectors.mean(dim=1))
+
+    return torch.cat(all_pooled_vectors, dim=0).mean(dim=0)
 
 
 def get_phrase_embedding(
@@ -424,15 +458,15 @@ def get_phrase_embedding(
     """Return a mean-pooled contextual embedding for a phrase.
 
     Applies an attention/padding mask during pooling to avoid skew from padding
-    or zero-length sequences, and optionally mean-centers the vector to correct
-    for representation anisotropy.
+    or zero-length sequences, and optionally mean-centers the vector using a
+    contextual baseline to correct for representation anisotropy.
 
     Args:
         model (MultiHeadMLM): The trained language model.
         vocab (Vocabulary): Vocabulary used for encoding tokens.
         phrase (str): Raw text phrase to embed.
-        mean_baseline (torch.Tensor | None): Optional mean baseline vector across
-            vocabulary tokens used for mean-centering anisotropy correction.
+        mean_baseline (torch.Tensor | None): Optional mean contextual baseline vector
+            from the attention pipeline used for mean-centering anisotropy correction.
 
     Returns:
         torch.Tensor: Pooled representation vector with shape (d_model,).
@@ -520,12 +554,20 @@ def witness_highlighter(
 # 5. EXECUTION PIPELINE
 # =====================================================================
 
-def run_evaluation(model: MultiHeadMLM, vocab: Vocabulary) -> None:
+def run_evaluation(
+    model: MultiHeadMLM,
+    vocab: Vocabulary,
+    tokens: list[str] | None = None,
+    seq_len: int = 16,
+) -> None:
     """Run witness highlighter and anisotropy-corrected phrase similarity evaluation.
 
     Args:
         model (MultiHeadMLM): Trained multi-head masked language model.
         vocab (Vocabulary): Token vocabulary.
+        tokens (list[str] | None): Optional tokenized corpus for computing the
+            contextual mean baseline across attention representations.
+        seq_len (int): Sequence length for corpus context extraction. Defaults to 16.
     """
     # 1. Evaluate with the Witness Highlighter
     sample_sentence = "The king said gravely consider your verdict"
@@ -540,10 +582,18 @@ def run_evaluation(model: MultiHeadMLM, vocab: Vocabulary) -> None:
     # 2. Check embeddings: Raw vs. Anisotropy-Corrected (Mean-Centered)
     print("\nChecking phrase embeddings (raw vs. anisotropy-corrected)...")
     phrase = "stole tarts"
-    mean_baseline = compute_vocab_mean_baseline(model)
+    if tokens is not None:
+        mean_baseline: torch.Tensor | None = compute_corpus_contextual_baseline(
+            model, vocab, tokens, seq_len=seq_len
+        )
+    else:
+        mean_baseline = None
+
     vec_raw = get_phrase_embedding(model, vocab, phrase)
     vec_calibrated = get_phrase_embedding(model, vocab, phrase, mean_baseline=mean_baseline)
 
+    Score = namedtuple("Score", ["calibrated", "phrase", "raw"])
+    scores: list[Score] = []
     other_phrases = [
         "King Hearts",
         "Queen Hearts",
@@ -557,7 +607,7 @@ def run_evaluation(model: MultiHeadMLM, vocab: Vocabulary) -> None:
         "March Hare",
         "Gryphon",
         "Mock Turtle",
-        "Wakawaka",
+        "Harry Potter",
     ]
     print(f"\nTarget query: '{phrase}'")
     print(f"{'Comparison Phrase':<18} | {'Raw CosSim':<12} | {'Calibrated CosSim':<17}")
@@ -576,7 +626,10 @@ def run_evaluation(model: MultiHeadMLM, vocab: Vocabulary) -> None:
                 vec_calibrated.unsqueeze(0), vec_other_calibrated.unsqueeze(0)
             ).item()
         )
-        print(f"{other_phrase:<18} | {sim_raw:+.4f}      | {sim_cal:+.4f}")
+        scores.append(Score(phrase=other_phrase, raw=sim_raw, calibrated=sim_cal))
+    scores.sort(reverse=True)
+    for score in scores:
+        print(f"{score.phrase:<18} | {score.raw:+.4f}      | {score.calibrated:+.4f}")
 
 
 def main(source_path: Path) -> None:
@@ -638,7 +691,7 @@ def main(source_path: Path) -> None:
         if epoch % 40 == 0:
             print(f"Epoch {epoch:03d}/{epochs} | MLM Loss: {loss.item():.4f}")
 
-    run_evaluation(model, vocab)
+    run_evaluation(model, vocab, tokens=tokens, seq_len=seq_len)
 
 
 if __name__ == "__main__":

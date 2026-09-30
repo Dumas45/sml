@@ -2,11 +2,11 @@ Using device: cuda
 Loaded text. Total tokens: 35386 | Vocab size: 2588
 
 Starting Training...
-Epoch 040/200 | MLM Loss: 4.5978
-Epoch 080/200 | MLM Loss: 2.1686
-Epoch 120/200 | MLM Loss: 1.0378
-Epoch 160/200 | MLM Loss: 0.5090
-Epoch 200/200 | MLM Loss: 0.2628
+Epoch 040/200 | MLM Loss: 5.0317
+Epoch 080/200 | MLM Loss: 3.1089
+Epoch 120/200 | MLM Loss: 2.1390
+Epoch 160/200 | MLM Loss: 1.6808
+Epoch 200/200 | MLM Loss: 1.4249
 
 --- Witness Highlighter: Target = 'verdict' ---
 Sentence: "the king said gravely consider your verdict"
@@ -18,16 +18,16 @@ the                | 0.0000          |
 king               | 0.0000          | 
 said               | 0.0000          | 
 gravely            | 0.0000          | 
-consider           | 1.0000          | ██████████████████████████████
-your               | 0.0000          | 
-verdict            | 0.0000          | 
+consider           | 0.0299          | █
+your               | 0.4013          | █████████████████
+verdict            | 0.5688          | █████████████████████████
 
 Head 1 [semantic/long-range]
 Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
 the                | 0.0000          | 
 king               | 0.0000          | 
-said               | 1.0000          | ██████████████████████████████
+said               | 1.0000          | █████████████████████████
 gravely            | 0.0000          | 
 consider           | 0.0000          | 
 your               | 0.0000          | 
@@ -37,9 +37,9 @@ Head 2 [semantic/long-range]
 Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
 the                | 0.0000          | 
-king               | 0.0000          | 
-said               | 0.1655          | ████
-gravely            | 0.8345          | █████████████████████████
+king               | 0.0001          | 
+said               | 0.5757          | █████████████████████████
+gravely            | 0.4242          | ██████████████████
 consider           | 0.0000          | 
 your               | 0.0000          | 
 verdict            | 0.0000          | 
@@ -47,13 +47,13 @@ verdict            | 0.0000          |
 Head 3 [free]
 Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
-the                | 0.0000          | 
-king               | 0.0000          | 
-said               | 0.0000          | 
-gravely            | 0.0000          | 
-consider           | 0.0000          | 
-your               | 1.0000          | █████████████████████████████
-verdict            | 0.0000          | 
+the                | 0.1006          | ████████
+king               | 0.2350          | ███████████████████
+said               | 0.3001          | █████████████████████████
+gravely            | 0.1581          | █████████████
+consider           | 0.0156          | █
+your               | 0.1267          | ██████████
+verdict            | 0.0639          | █████
 
 --- Witness Highlighter: Target = 'king' ---
 Sentence: "the king said gravely consider your verdict"
@@ -61,10 +61,10 @@ Sentence: "the king said gravely consider your verdict"
 Head 0 [local/positional]
 Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
-the                | 1.0000          | ██████████████████████████████
-king               | 0.0000          | 
-said               | 0.0000          | 
-gravely            | 0.0000          | 
+the                | 0.1757          | ███████
+king               | 0.1511          | ██████
+said               | 0.5957          | █████████████████████████
+gravely            | 0.0775          | ███
 consider           | 0.0000          | 
 your               | 0.0000          | 
 verdict            | 0.0000          | 
@@ -76,8 +76,8 @@ the                | 0.0000          |
 king               | 0.0000          | 
 said               | 0.0000          | 
 gravely            | 0.0000          | 
-consider           | 0.8765          | ██████████████████████████
-your               | 0.1235          | ███
+consider           | 0.0000          | 
+your               | 1.0000          | █████████████████████████
 verdict            | 0.0000          | 
 
 Head 2 [semantic/long-range]
@@ -87,20 +87,20 @@ the                | 0.0000          |
 king               | 0.0000          | 
 said               | 0.0000          | 
 gravely            | 0.0000          | 
-consider           | 0.0000          | 
-your               | 1.0000          | ██████████████████████████████
-verdict            | 0.0000          | 
+consider           | 0.4410          | ███████████████████
+your               | 0.5589          | █████████████████████████
+verdict            | 0.0001          | 
 
 Head 3 [free]
 Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
-the                | 0.0011          | 
-king               | 0.0019          | 
-said               | 0.0044          | 
-gravely            | 0.0011          | 
-consider           | 0.0000          | 
-your               | 0.9912          | █████████████████████████████
-verdict            | 0.0003          | 
+the                | 0.0853          | █████
+king               | 0.3542          | ███████████████████████
+said               | 0.3827          | █████████████████████████
+gravely            | 0.0927          | ██████
+consider           | 0.0085          | 
+your               | 0.0302          | █
+verdict            | 0.0464          | ███
 
 --- Witness Highlighter: Target = 'he' ---
 Sentence: "the knave of hearts he stole those tarts"
@@ -110,11 +110,11 @@ Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
 the                | 0.0000          | 
 knave              | 0.0000          | 
-of                 | 1.0000          | █████████████████████████████
-hearts             | 0.0000          | 
-he                 | 0.0000          | 
-stole              | 0.0000          | 
-those              | 0.0000          | 
+of                 | 0.5213          | █████████████████████████
+hearts             | 0.1135          | █████
+he                 | 0.0899          | ████
+stole              | 0.1189          | █████
+those              | 0.1564          | ███████
 tarts              | 0.0000          | 
 
 Head 1 [semantic/long-range]
@@ -127,31 +127,31 @@ hearts             | 0.0000          |
 he                 | 0.0000          | 
 stole              | 0.0000          | 
 those              | 0.0000          | 
-tarts              | 1.0000          | ██████████████████████████████
+tarts              | 1.0000          | █████████████████████████
 
 Head 2 [semantic/long-range]
 Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
 the                | 0.0000          | 
-knave              | 0.2662          | ███████
+knave              | 0.0092          | 
 of                 | 0.0000          | 
 hearts             | 0.0000          | 
 he                 | 0.0000          | 
 stole              | 0.0000          | 
 those              | 0.0000          | 
-tarts              | 0.7338          | ██████████████████████
+tarts              | 0.9908          | █████████████████████████
 
 Head 3 [free]
 Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
-the                | 0.0000          | 
-knave              | 0.0012          | 
-of                 | 0.5311          | ███████████████
-hearts             | 0.0000          | 
-he                 | 0.0000          | 
-stole              | 0.0001          | 
-those              | 0.4532          | █████████████
-tarts              | 0.0144          | 
+the                | 0.3319          | █████████████████████████
+knave              | 0.0458          | ███
+of                 | 0.0720          | █████
+hearts             | 0.1673          | ████████████
+he                 | 0.0961          | ███████
+stole              | 0.0117          | 
+those              | 0.2189          | ████████████████
+tarts              | 0.0562          | ████
 
 --- Witness Highlighter: Target = 'stole' ---
 Sentence: "the knave of hearts he stole those tarts"
@@ -162,18 +162,18 @@ Context Token      | Attention Score | Visual Weight
 the                | 0.0000          | 
 knave              | 0.0000          | 
 of                 | 0.0000          | 
-hearts             | 0.0000          | 
-he                 | 0.0000          | 
-stole              | 0.1002          | ███
-those              | 0.0058          | 
-tarts              | 0.8941          | ██████████████████████████
+hearts             | 0.3157          | █████████████████████████
+he                 | 0.1518          | ████████████
+stole              | 0.0781          | ██████
+those              | 0.2222          | █████████████████
+tarts              | 0.2321          | ██████████████████
 
 Head 1 [semantic/long-range]
 Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
-the                | 0.8785          | ██████████████████████████
-knave              | 0.1174          | ███
-of                 | 0.0040          | 
+the                | 0.0173          | 
+knave              | 0.4722          | ███████████████████████
+of                 | 0.5105          | █████████████████████████
 hearts             | 0.0000          | 
 he                 | 0.0000          | 
 stole              | 0.0000          | 
@@ -184,8 +184,8 @@ Head 2 [semantic/long-range]
 Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
 the                | 0.0000          | 
-knave              | 1.0000          | ██████████████████████████████
-of                 | 0.0000          | 
+knave              | 0.9879          | █████████████████████████
+of                 | 0.0121          | 
 hearts             | 0.0000          | 
 he                 | 0.0000          | 
 stole              | 0.0000          | 
@@ -195,14 +195,14 @@ tarts              | 0.0000          |
 Head 3 [free]
 Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
-the                | 0.7976          | ███████████████████████
-knave              | 0.0885          | ██
-of                 | 0.0689          | ██
-hearts             | 0.0003          | 
-he                 | 0.0007          | 
-stole              | 0.0152          | 
-those              | 0.0236          | 
-tarts              | 0.0052          | 
+the                | 0.2566          | █████████████████████████
+knave              | 0.0910          | ████████
+of                 | 0.0736          | ███████
+hearts             | 0.2395          | ███████████████████████
+he                 | 0.1104          | ██████████
+stole              | 0.0508          | ████
+those              | 0.0675          | ██████
+tarts              | 0.1106          | ██████████
 
 --- Witness Highlighter: Target = 'sentence' ---
 Sentence: "the judge said calmly consider your sentence"
@@ -214,17 +214,17 @@ the                | 0.0000          |
 judge              | 0.0000          | 
 said               | 0.0000          | 
 calmly             | 0.0000          | 
-consider           | 1.0000          | ██████████████████████████████
-your               | 0.0000          | 
-sentence           | 0.0000          | 
+consider           | 0.0733          | ██
+your               | 0.8464          | █████████████████████████
+sentence           | 0.0804          | ██
 
 Head 1 [semantic/long-range]
 Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
 the                | 0.0000          | 
-judge              | 0.0541          | █
-said               | 0.9459          | ████████████████████████████
-calmly             | 0.0000          | 
+judge              | 0.4416          | ███████████████████
+said               | 0.5581          | █████████████████████████
+calmly             | 0.0002          | 
 consider           | 0.0000          | 
 your               | 0.0000          | 
 sentence           | 0.0000          | 
@@ -234,8 +234,8 @@ Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
 the                | 0.0000          | 
 judge              | 0.0000          | 
-said               | 0.0836          | ██
-calmly             | 0.9164          | ███████████████████████████
+said               | 0.0000          | 
+calmly             | 1.0000          | █████████████████████████
 consider           | 0.0000          | 
 your               | 0.0000          | 
 sentence           | 0.0000          | 
@@ -243,25 +243,29 @@ sentence           | 0.0000          |
 Head 3 [free]
 Context Token      | Attention Score | Visual Weight
 -------------------------------------------------------
-the                | 0.0011          | 
-judge              | 0.1175          | ███
-said               | 0.0000          | 
-calmly             | 0.0000          | 
-consider           | 0.0000          | 
-your               | 0.8814          | ██████████████████████████
-sentence           | 0.0000          | 
+the                | 0.1080          | ███████
+judge              | 0.3433          | ██████████████████████
+said               | 0.3826          | █████████████████████████
+calmly             | 0.0025          | 
+consider           | 0.0091          | 
+your               | 0.1414          | █████████
+sentence           | 0.0130          | 
 
-Checking phrase embeddings...
-Similarity between 'stole tarts' and 'King Hearts': 0.4770
-Similarity between 'stole tarts' and 'Queen Hearts': 0.5094
-Similarity between 'stole tarts' and 'Knave Hearts': 0.6058
-Similarity between 'stole tarts' and 'Alice': 0.6129
-Similarity between 'stole tarts' and 'White Rabbit': 0.3784
-Similarity between 'stole tarts' and 'Mad Hatter': 0.6243
-Similarity between 'stole tarts' and 'Cheshire Cat': 0.4119
-Similarity between 'stole tarts' and 'Caterpillar': 0.6407
-Similarity between 'stole tarts' and 'Dormouse': 0.4613
-Similarity between 'stole tarts' and 'March Hare': 0.4576
-Similarity between 'stole tarts' and 'Gryphon': 0.4652
-Similarity between 'stole tarts' and 'Mock Turtle': 0.5629
-Similarity between 'stole tarts' and 'Wakawaka': 0.4934
+Checking phrase embeddings (raw vs. anisotropy-corrected)...
+
+Target query: 'stole tarts'
+Comparison Phrase  | Raw CosSim   | Calibrated CosSim
+-------------------------------------------------------
+King Hearts        | +0.3864      | +0.3875
+Queen Hearts       | +0.4413      | +0.4422
+Knave Hearts       | +0.7666      | +0.7670
+Alice              | +0.6130      | +0.6139
+White Rabbit       | +0.4273      | +0.4283
+Mad Hatter         | +0.4914      | +0.4924
+Cheshire Cat       | +0.4798      | +0.4804
+Caterpillar        | +0.4682      | +0.4688
+Dormouse           | +0.4313      | +0.4323
+March Hare         | +0.4314      | +0.4321
+Gryphon            | +0.1318      | +0.1326
+Mock Turtle        | +0.5810      | +0.5815
+Wakawaka           | +0.4633      | +0.4640

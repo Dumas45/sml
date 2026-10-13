@@ -1,0 +1,163 @@
+Using device: cuda
+Loaded text. Total tokens: 35386 | Vocab size: 2587
+Dataset prepared: 2081 sequence chunks of length 16
+
+Starting Training (Next-Token Prediction)...
+Epoch 050/250 | Causal LM Loss: 4.3831
+Epoch 100/250 | Causal LM Loss: 3.2292
+Epoch 150/250 | Causal LM Loss: 2.1922
+Epoch 200/250 | Causal LM Loss: 1.3649
+Epoch 250/250 | Causal LM Loss: 0.8602
+
+=======================================================
+1. AUTOREGRESSIVE GENERATION (GREEDY, TOP-K & TOP-P)
+=======================================================
+
+Prompt: 'the king said'
+  Greedy (rep penalty=1.2): the king said to alice . “ stand very cautiously hand , and whiskers !
+  Sample (top-k=10, top-p=0.9): the king said , as for this morning ’ s of nearly at any .
+
+Prompt: 'alice was beginning'
+  Greedy (rep penalty=1.2): alice was beginning to see its meaning . “ and a curious ! ” said
+  Sample (top-k=10, top-p=0.9): alice was beginning to see everything is — no could not this . the first
+
+Prompt: 'the queen of hearts'
+  Greedy (rep penalty=1.2): the queen of hearts , merely that she made some other — just like a little
+  Sample (top-k=10, top-p=0.9): the queen of hearts , but it went on again . “ give your evidence she
+
+Prompt: 'down the rabbit'
+  Greedy (rep penalty=1.2): down the rabbit read several in a duck with her head unless she would call
+  Sample (top-k=10, top-p=0.9): down the rabbit read out , with great voice . “ why your evidence she
+
+=======================================================
+2. CAUSAL WITNESS HIGHLIGHTER (LOWER TRIANGULAR MASK)
+=======================================================
+
+--- Causal Witness Highlighter: Target = 'she' (Pos 4) ---
+Sentence: "the queen of hearts she made some tarts"
+
+Head 0 [Causal Self-Attention]
+Context Token      | Pos  | Attention Score | Visual Weight
+-----------------------------------------------------------------
+the                | 0    | 0.0000                 | 
+queen              | 1    | 0.0067                 | 
+of                 | 2    | 0.0002                 | 
+hearts             | 3    | 0.9931                 | █████████████████████████
+she                | 4    | 0.0000                 | 
+made               | 5    | 0.0000 (Future masked) | 
+some               | 6    | 0.0000 (Future masked) | 
+tarts              | 7    | 0.0000 (Future masked) | 
+
+Head 1 [Causal Self-Attention]
+Context Token      | Pos  | Attention Score | Visual Weight
+-----------------------------------------------------------------
+the                | 0    | 0.0064                 | 
+queen              | 1    | 0.0365                 | 
+of                 | 2    | 0.0004                 | 
+hearts             | 3    | 0.0213                 | 
+she                | 4    | 0.9354                 | █████████████████████████
+made               | 5    | 0.0000 (Future masked) | 
+some               | 6    | 0.0000 (Future masked) | 
+tarts              | 7    | 0.0000 (Future masked) | 
+
+Head 2 [Causal Self-Attention]
+Context Token      | Pos  | Attention Score | Visual Weight
+-----------------------------------------------------------------
+the                | 0    | 0.8607                 | █████████████████████████
+queen              | 1    | 0.0025                 | 
+of                 | 2    | 0.0351                 | █
+hearts             | 3    | 0.0979                 | ██
+she                | 4    | 0.0037                 | 
+made               | 5    | 0.0000 (Future masked) | 
+some               | 6    | 0.0000 (Future masked) | 
+tarts              | 7    | 0.0000 (Future masked) | 
+
+Head 3 [Causal Self-Attention]
+Context Token      | Pos  | Attention Score | Visual Weight
+-----------------------------------------------------------------
+the                | 0    | 0.1691                 | █████████
+queen              | 1    | 0.0052                 | 
+of                 | 2    | 0.3652                 | ███████████████████
+hearts             | 3    | 0.4602                 | █████████████████████████
+she                | 4    | 0.0002                 | 
+made               | 5    | 0.0000 (Future masked) | 
+some               | 6    | 0.0000 (Future masked) | 
+tarts              | 7    | 0.0000 (Future masked) | 
+
+--- Causal Witness Highlighter: Target = 'tarts' (Pos 7) ---
+Sentence: "the queen of hearts she made some tarts"
+
+Head 0 [Causal Self-Attention]
+Context Token      | Pos  | Attention Score | Visual Weight
+-----------------------------------------------------------------
+the                | 0    | 0.0000                 | 
+queen              | 1    | 0.0000                 | 
+of                 | 2    | 0.0001                 | 
+hearts             | 3    | 0.0000                 | 
+she                | 4    | 0.0000                 | 
+made               | 5    | 0.0000                 | 
+some               | 6    | 0.9999                 | █████████████████████████
+tarts              | 7    | 0.0000                 | 
+
+Head 1 [Causal Self-Attention]
+Context Token      | Pos  | Attention Score | Visual Weight
+-----------------------------------------------------------------
+the                | 0    | 0.0005                 | 
+queen              | 1    | 0.0000                 | 
+of                 | 2    | 0.0000                 | 
+hearts             | 3    | 0.0000                 | 
+she                | 4    | 0.9229                 | █████████████████████████
+made               | 5    | 0.0000                 | 
+some               | 6    | 0.0006                 | 
+tarts              | 7    | 0.0759                 | ██
+
+Head 2 [Causal Self-Attention]
+Context Token      | Pos  | Attention Score | Visual Weight
+-----------------------------------------------------------------
+the                | 0    | 0.0002                 | 
+queen              | 1    | 0.0000                 | 
+of                 | 2    | 0.0006                 | 
+hearts             | 3    | 0.0000                 | 
+she                | 4    | 0.0011                 | 
+made               | 5    | 0.0017                 | 
+some               | 6    | 0.0000                 | 
+tarts              | 7    | 0.9963                 | █████████████████████████
+
+Head 3 [Causal Self-Attention]
+Context Token      | Pos  | Attention Score | Visual Weight
+-----------------------------------------------------------------
+the                | 0    | 0.3902                 | █████████████████
+queen              | 1    | 0.0000                 | 
+of                 | 2    | 0.0000                 | 
+hearts             | 3    | 0.0000                 | 
+she                | 4    | 0.0000                 | 
+made               | 5    | 0.5701                 | █████████████████████████
+some               | 6    | 0.0003                 | 
+tarts              | 7    | 0.0395                 | █
+
+=======================================================
+3. PHRASE EMBEDDINGS: LAST-TOKEN VS. MEAN-POOLING
+=======================================================
+
+Target query: 'stole tarts'
+Comparison Phrase  | Raw Last-Token | Calibrated Last  | Calibrated Mean 
+------------------------------------------------------------------------
+King Hearts        | +0.6254         | +0.4728          | +0.1126
+Caterpillar        | +0.5902         | +0.4418          | +0.4127
+Queen Hearts       | +0.5425         | +0.3883          | +0.2339
+Knave Hearts       | +0.5488         | +0.3787          | +0.1386
+Gryphon            | +0.4595         | +0.2797          | +0.3463
+White Rabbit       | +0.4164         | +0.2215          | +0.2286
+Cheshire Cat       | +0.3736         | +0.1921          | +0.0750
+Harry Potter       | +0.3262         | +0.1577          | +0.2644
+March Hare         | +0.2279         | +0.0697          | -0.0115
+Dormouse           | +0.2316         | +0.0597          | +0.0892
+Alice              | +0.2635         | +0.0499          | +0.1154
+Mad Hatter         | +0.0843         | -0.0169          | +0.1778
+Mock Turtle        | +0.1933         | -0.0388          | -0.1656
+
+Saved positional encoding visualization to: /home/alex/drafts/py3/sml/examples/toy_self_attention_causal/pe_visualization.png
+
+--- Positional Encoding Frequency Diagnostic ---
+Dimension  0 (Highest freq) variance: Short=0.4772 | Long=0.4995
+Dimension 63 (Lowest freq)  variance: Short=0.0000 | Long=0.0000

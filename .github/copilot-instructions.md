@@ -1,3 +1,11 @@
+# Python
+
+## Indentation
+
+- Python code uses 4 spaces indentation (no tabs).
+
+## Docstrings
+
 All Python docstrings in this workspace must follow the Google Python Style Guide layout.
 
 - Use triple double quotes for docstrings.
@@ -13,16 +21,24 @@ Example:
 
 ```python
 def load_records(path: str, limit: int | None = None) -> list[dict[str, str]]:
-	"""Load records from a file.
+    """Load records from a file.
 
-	Args:
-		path (str): Path to the input file.
-		limit (int | None): Maximum number of records to load.
+    Args:
+        path (str): Path to the input file.
+        limit (int | None): Maximum number of records to load.
 
-	Returns:
-		list[dict[str, str]]: The loaded records.
+    Returns:
+        list[dict[str, str]]: The loaded records.
 
-	Raises:
-		FileNotFoundError: If the input file does not exist.
-	"""
+    Raises:
+        FileNotFoundError: If the input file does not exist.
+    """
 ```
+
+## Linting
+
+- Do not run Pylint checks on your own (only run them when explicitly requested).
+
+## Testing
+
+- Do not run unit tests on your own (only run them when explicitly requested).
